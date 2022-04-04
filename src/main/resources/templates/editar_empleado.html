@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<div th:replace="fragments/main :: head"></div>
+
+		<title>Actualizar Empleado</title>
+	</head>
+	<body>
+		<!-- Navbar -->
+		<header th:insert="fragments/main.html :: nav"></header>
+
+		<!-- Main -->
+		<div class="container">
+			<h1>Actualizar Empleado</h1>
+			<form th:action="@{/empleados/registro}" method="post" >
+				<input type="hidden" name="id" th:value="${empleado.id}">
+				<div class="mb-3">
+				  <label for="input_name" class="form-label">Nombre</label>
+				  <input type="text" class="form-control" id="input_name" name="nombre" th:value="${empleado.nombre}">
+				</div>
+				<div class="mb-3">
+				  <label for="input_surname" class="form-label">Apellido</label>
+				  <input type="text" class="form-control" id="input_surname" name="apellido" th:value="${empleado.apellido}">
+				</div>
+				 <div class="mb-3">
+					<label for="input_dni" class="form-label">Dni</label>
+					<input type="number" max-length="8" class="form-control" id="input_dni" name="dni" th:value="${empleado.dni}">
+				 </div>
+				<button type="submit" class="btn btn-primary">Actualizar</button>
+			</form>
+		</div>
+		<!--Footer-->
+		<footer th:insert="fragments/main.html :: footer"></footer>
+	</body>
+</html>

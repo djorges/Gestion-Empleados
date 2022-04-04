@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="fragments/main :: head"></div>
+    <title>Lista de Empleados</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <div class="container">
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Main -->
+    <div class="container">
+        <h1>Bienvenido <span sec:authentication="name"></span></h1>
+        <tr>
+            <h3>Lista de Empleados</h3>
+            <div>
+                <!-- /* Add element button*/-->
+                <a th:href="@{/empleados/registro}" class="btn btn-success">Agregar</a>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">
+                                <a th:href="@{'/empleados/' + ${currentPage} + '?sortField=nombre&orderBy=' + ${reverseOrderBy} }">Nombre</a>
+                            </th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Dni</th>
+                            <th scope="col">Contraseña</th>
+                            <th scope="col">Modificar</th>
+                            <th scope="col">Borrar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="empleado:${empleados}">
+                            <td scope="row" th:text="${empleado.id}"></td>
+                            <td th:text="${empleado.nombre}"></td>
+                            <td th:text="${empleado.apellido}"></td>
+                            <td th:text="${empleado.dni}"></td>
+                            <td th:text="${empleado.password}"></td>
+                            <td><a th:href="@{/empleados/editar/{id}   (id=${empleado.id})   }" class="btn btn-warning">Modificar</a></td>
+                            <td><a th:href="@{/empleados/borrar/{id}   (id=${empleado.id})   }" class="btn btn-danger">Borrar</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${totalPages > 1}">
+                <div class="row">
+                    <div class="col-2">
+                        Total Rows: [[${totalItems}]]
+                    </div>
+                    <div class="col-10">
+                        <nav aria-label="Pagination">
+                            <ul class="pagination">
+                                <!--/* Index Pages */-->
+                                <li class="page-item" th:classappend="${currentPage == i} ? 'active' : '' " th:each="i: ${#numbers.sequence(1,totalPages)}">
+                                    <!--/* Inactive Index Pages */-->
+                                    <a class="page-link" th:if="${currentPage != i}" th:href="@{'/empleados/' + ${i} + '?sortField=nombre&orderBy=' + ${reverseOrderBy} }">[[${i}]]</a>
+                                    <!--/* Active Index Pages */-->
+                                    <span class="page-link" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                                </li>
+                                <!-- /* Next Page */ -->
+                                <li class="page-item" th:classappend="${currentPage < totalPages} ? '' : 'disabled' ">
+                                    <a class="page-link" th:href="@{'/empleados/'+ ${currentPage + 1} + '?sortField=nombre&orderBy=' + ${reverseOrderBy} }">Next</a>
+                                </li>
+                                <!-- /* Last Page */ -->
+                                <li class="page-item" th:classappend="${currentPage < totalPages} ? '' : 'disabled' ">
+                                    <a class="page-link" th:href="@{'/empleados/'+ ${totalPages} + '?sortField=nombre&orderBy=' + ${reverseOrderBy} }">Last</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!--Footer-->
+    <footer th:insert="fragments/main.html :: footer"></footer>
+</body>
+</html>

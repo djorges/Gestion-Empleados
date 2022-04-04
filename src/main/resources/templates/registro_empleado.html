@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<div th:replace="fragments/main :: head"></div>
+	<title>Registrar Empleado</title>
+</head>
+<body>
+	<!-- Navbar -->
+	<header th:insert="fragments/main.html :: nav"></header>
+
+	<!-- Main -->
+	<div class="container">
+		<div class="row">
+			<div class="col-6">
+				<h1>Registrar Empleado</h1>	
+				<!-- Form -->
+				<form th:action="@{/empleados/registro}" method="post" th:object="${empleado}">
+					<div class="form-group">
+						<label class="control-label" for="input_name">Nombre: </label>
+						<input id="input_name" type="text" class="form-control" th:field="*{nombre}" autofocus="autofocus">
+						<p th:if="${#fields.hasErrors('nombre')}" th:errorclass="text-danger" th:errors="*{nombre}"></p>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="input_surname">Apellido: </label>
+						<input id="input_surname" type="text" class="form-control" th:field="*{apellido}" autofocus="autofocus">
+						<p th:if="${#fields.hasErrors('apellido')}" th:errorclass="text-danger" th:errors="*{apellido}"></p>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="input_dni">DNI: </label>
+						<input id="input_dni" type="number" class="form-control" th:field="*{dni}" autofocus="autofocus">
+						<p th:if="${#fields.hasErrors('dni')}" th:errorclass="text-danger" th:errors="*{dni}"></p>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="input_password">Contraseña: </label>
+						<input id="input_password" type="password" class="form-control" th:field="*{password}" autofocus="autofocus">
+						<p th:if="${#fields.hasErrors('password')}" th:errorclass="text-danger" th:errors="*{password}"></p>
+					</div>
+					<br>
+					<div class="form-group text-right">
+						<button type="submit" class="btn btn-success">Registrar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!--Footer-->
+	<footer th:insert="fragments/main.html :: footer"></footer>
+</body>
+</html>
